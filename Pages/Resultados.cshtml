@@ -1,4 +1,5 @@
-﻿@model List<EconomizaAlagoasWeb.Models.Registro>
+﻿@page
+@model EconomizaAlagoasWeb.Pages.ResultadosModel
 
 @{
     ViewData["Title"] = "Resultados da Pesquisa";
@@ -6,15 +7,14 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h1>@ViewData["Title"]</h1>
-    <a asp-action="Index" class="btn btn-secondary">
+    <a asp-page="/Index" class="btn btn-secondary">
         <i class="fas fa-arrow-left"></i> Nova Pesquisa
     </a>
 </div>
 
-
-@if (Model != null && Model.Any())
+@if (Model.Resultados != null && Model.Resultados.Any())
 {
-    <p class="lead">Foram encontrados <strong>@Model.Count()</strong> resultados que correspondem aos seus filtros.</p>
+    <p class="lead">Foram encontrados <strong>@Model.Resultados.Count()</strong> resultados.</p>
 
     <div class="table-responsive">
         <table class="table table-striped table-hover table-bordered">
@@ -30,7 +30,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var item in Model.Resultados)
                 {
                     <tr>
                         <td>@(item.Produto?.DescricaoSefaz ?? item.Produto?.Descricao ?? "N/A")</td>
@@ -55,9 +55,3 @@ else
         <p class="mb-0">Tente ampliar sua busca ou utilize filtros diferentes.</p>
     </div>
 }
-
-<div class="mt-4">
-    <a asp-action="Index" class="btn btn-secondary">
-        <i class="fas fa-arrow-left"></i> Voltar para a Pesquisa
-    </a>
-</div>

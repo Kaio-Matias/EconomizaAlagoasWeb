@@ -1,10 +1,82 @@
 ﻿@page
-@model IndexModel
+@model EconomizaAlagoasWeb.Pages.IndexModel
+
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Pesquisa de Preços";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Pesquisa de Preços</h1>
+    <p>Utilize os filtros abaixo para encontrar os melhores preços em Alagoas.</p>
 </div>
+
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header"><i class="fas fa-box-open"></i> Filtros por Produto</div>
+                        <div class="card-body">
+                            <div class="form-group mb-3">
+                                <label asp-for="Pesquisa.Descricao" class="control-label fw-bold"></label>
+                                <input asp-for="Pesquisa.Descricao" class="form-control" placeholder="Ex: Picanha, Cerveja, Leite" />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="Pesquisa.Gtin" class="control-label fw-bold"></label>
+                                <input asp-for="Pesquisa.Gtin" class="form-control" placeholder="Busca exata pelo código de barras" />
+                            </div>
+                            <hr />
+                            <div class="form-group mb-3">
+                                <label asp-for="Pesquisa.Ncm" class="control-label fw-bold"></label>
+                                <input asp-for="Pesquisa.Ncm" class="form-control" placeholder="Ex: 0202.30.00" />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Pesquisa.Gpc" class="control-label fw-bold"></label>
+                                <input asp-for="Pesquisa.Gpc" class="form-control" placeholder="Ex: 10005769 (Carnes)" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header"><i class="fas fa-store"></i> Filtros por Estabelecimento e Período</div>
+                        <div class="card-body">
+                            <div class="form-group mb-3">
+                                <label asp-for="Pesquisa.Cnpj" class="control-label fw-bold"></label>
+                                <input asp-for="Pesquisa.Cnpj" class="form-control" placeholder="Busca em uma empresa específica" />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="Pesquisa.CodigoIBGEMunicipio" class="control-label fw-bold"></label>
+                                <select asp-for="Pesquisa.CodigoIBGEMunicipio" asp-items="Model.Pesquisa.Municipios" class="form-control">
+                                    <option value="">-- Todos os Municípios --</option>
+                                </select>
+                            </div>
+                            <hr />
+                            <div class="form-group">
+                                <label asp-for="Pesquisa.Dias" class="control-label fw-bold"></label>
+                                <input asp-for="Pesquisa.Dias" class="form-control" />
+                                <span asp-validation-for="Pesquisa.Dias" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary btn-lg px-5">
+                    <i class="fas fa-search"></i> Pesquisar Agora
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
