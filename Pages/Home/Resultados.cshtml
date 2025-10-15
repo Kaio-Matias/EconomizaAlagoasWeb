@@ -1,0 +1,63 @@
+﻿@model List<EconomizaAlagoasWeb.Models.Registro>
+
+@{
+    ViewData["Title"] = "Resultados da Pesquisa";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>@ViewData["Title"]</h1>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Nova Pesquisa
+    </a>
+</div>
+
+
+@if (Model != null && Model.Any())
+{
+    <p class="lead">Foram encontrados <strong>@Model.Count()</strong> resultados que correspondem aos seus filtros.</p>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Descrição do Produto</th>
+                    <th style="width: 120px;">Valor Venda</th>
+                    <th style="width: 150px;">Data da Venda</th>
+                    <th>Nome Fantasia</th>
+                    <th>Razão Social</th>
+                    <th>CNPJ</th>
+                    <th>Município</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@(item.Produto?.DescricaoSefaz ?? item.Produto?.Descricao ?? "N/A")</td>
+                        <td class="text-end"><strong>@((item.Produto?.Venda?.ValorVenda ?? 0).ToString("C"))</strong></td>
+                        <td>@((item.Produto?.Venda?.DataVenda ?? DateTime.MinValue).ToString("dd/MM/yyyy HH:mm"))</td>
+                        <td>@(item.Estabelecimento?.NomeFantasia ?? "N/A")</td>
+                        <td>@(item.Estabelecimento?.RazaoSocial ?? "N/A")</td>
+                        <td>@(item.Estabelecimento?.Cnpj ?? "N/A")</td>
+                        <td>@(item.Estabelecimento?.Endereco?.Municipio ?? "N/A")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="alert alert-warning mt-4" role="alert">
+        <h4 class="alert-heading">Nenhum Resultado!</h4>
+        <p>Não foi possível encontrar nenhum registro com os filtros informados.</p>
+        <hr>
+        <p class="mb-0">Tente ampliar sua busca ou utilize filtros diferentes.</p>
+    </div>
+}
+
+<div class="mt-4">
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Voltar para a Pesquisa
+    </a>
+</div>

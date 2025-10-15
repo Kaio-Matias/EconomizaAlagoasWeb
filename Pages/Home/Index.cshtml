@@ -1,0 +1,89 @@
+﻿@model EconomizaAlagoasWeb.Models.PesquisaViewModel
+
+@{
+    ViewData["Title"] = "Pesquisa de Preços Detalhada";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Pesquisa de Preços</h1>
+    <p>Utilize os filtros abaixo para encontrar os melhores preços em Alagoas.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+        <form asp-action="Pesquisar" method="post">
+            @* Exibe mensagens de erro de validação ou da API *@
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <i class="fas fa-box-open"></i> Filtros por Produto
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group mb-3">
+                                <label asp-for="Descricao" class="control-label fw-bold"></label>
+                                <input asp-for="Descricao" class="form-control" placeholder="Ex: Picanha, Cerveja, Leite" />
+                                <small class="form-text text-muted">Use para buscas genéricas. É obrigatório se for usar NCM ou GPC.</small>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="Gtin" class="control-label fw-bold"></label>
+                                <input asp-for="Gtin" class="form-control" placeholder="Busca exata pelo código de barras" />
+                            </div>
+                            <hr />
+                            <div class="form-group mb-3">
+                                <label asp-for="Ncm" class="control-label fw-bold"></label>
+                                <input asp-for="Ncm" class="form-control" placeholder="Ex: 0202.30.00" />
+                                <small class="form-text text-muted">Requer que a 'Descrição' seja preenchida.</small>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Gpc" class="control-label fw-bold"></label>
+                                <input asp-for="Gpc" class="form-control" placeholder="Ex: 10005769 (Carnes)" />
+                                <small class="form-text text-muted">Requer que a 'Descrição' seja preenchida.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <i class="fas fa-store"></i> Filtros por Estabelecimento e Período
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group mb-3">
+                                <label asp-for="Cnpj" class="control-label fw-bold"></label>
+                                <input asp-for="Cnpj" class="form-control" placeholder="Busca em uma empresa específica" />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="CodigoIBGEMunicipio" class="control-label fw-bold"></label>
+                                <select asp-for="CodigoIBGEMunicipio" asp-items="Model.Municipios" class="form-control">
+                                    <option value="">-- Todos os Municípios --</option>
+                                </select>
+                            </div>
+                            <hr />
+                            <div class="form-group">
+                                <label asp-for="Dias" class="control-label fw-bold"></label>
+                                <input asp-for="Dias" class="form-control" />
+                                <span asp-validation-for="Dias" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary btn-lg px-5">
+                    <i class="fas fa-search"></i> Pesquisar Agora
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
